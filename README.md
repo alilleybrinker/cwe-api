@@ -22,6 +22,7 @@ This repository includes two Rust crates:
 
 ```sh
 $ git clone https://github.com/alilleybrinker/cwe-api.git
+$ cd cwe-api
 $ cargo install --path cwe-api-cli
 ```
 
