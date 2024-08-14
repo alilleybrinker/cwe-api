@@ -5,11 +5,7 @@ mod cli;
 
 use crate::app::App;
 use anyhow::{anyhow, Result};
-use cli::{
-    CategoryArgs, CategoryCommand, CategoryInfoArgs, Command, CweAncestorsArgs, CweArgs,
-    CweChildrenArgs, CweCommand, CweDescendantsArgs, CweInfoArgs, CweParentsArgs, VersionArgs,
-    ViewArgs, ViewCommand, ViewInfoArgs, WeaknessArgs, WeaknessCommand, WeaknessInfoArgs,
-};
+use cli::*;
 use serde::Serialize;
 use std::process::ExitCode;
 use tracing::instrument;
@@ -86,6 +82,27 @@ async fn run_cwe_cmd(app: &App, args: &CweArgs) -> Result<()> {
     }
 }
 
+#[instrument]
+async fn run_weakness_cmd(app: &App, args: &WeaknessArgs) -> Result<()> {
+    match &args.command {
+        WeaknessCommand::Info(args) => run_weakness_info_cmd(app, args).await,
+    }
+}
+
+#[instrument]
+async fn run_view_cmd(app: &App, args: &ViewArgs) -> Result<()> {
+    match &args.command {
+        ViewCommand::Info(args) => run_view_info_cmd(app, args).await,
+    }
+}
+
+#[instrument]
+async fn run_category_cmd(app: &App, args: &CategoryArgs) -> Result<()> {
+    match &args.command {
+        CategoryCommand::Info(args) => run_category_info_cmd(app, args).await,
+    }
+}
+
 async fn run_cwe_info_cmd(app: &App, args: &CweInfoArgs) -> Result<()> {
     let value = app.client.get_cwe_info(&args.id).await?.into_inner().0;
     report_json(value)
@@ -127,35 +144,14 @@ async fn run_cwe_ancestors_cmd(app: &App, args: &CweAncestorsArgs) -> Result<()>
     report_json(value)
 }
 
-#[instrument]
-async fn run_weakness_cmd(app: &App, args: &WeaknessArgs) -> Result<()> {
-    match &args.command {
-        WeaknessCommand::Info(args) => run_weakness_info_cmd(app, args).await,
-    }
-}
-
 async fn run_weakness_info_cmd(app: &App, args: &WeaknessInfoArgs) -> Result<()> {
     let value = app.client.get_cwe_weakness(&args.id).await?.into_inner();
     report_json(value)
 }
 
-#[instrument]
-async fn run_view_cmd(app: &App, args: &ViewArgs) -> Result<()> {
-    match &args.command {
-        ViewCommand::Info(args) => run_view_info_cmd(app, args).await,
-    }
-}
-
 async fn run_view_info_cmd(app: &App, args: &ViewInfoArgs) -> Result<()> {
     let value = app.client.get_cwe_view(&args.id).await?.into_inner();
     report_json(value)
-}
-
-#[instrument]
-async fn run_category_cmd(app: &App, args: &CategoryArgs) -> Result<()> {
-    match &args.command {
-        CategoryCommand::Info(args) => run_category_info_cmd(app, args).await,
-    }
 }
 
 async fn run_category_info_cmd(app: &App, args: &CategoryInfoArgs) -> Result<()> {
