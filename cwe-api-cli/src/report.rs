@@ -25,7 +25,6 @@ fn report_json(value: JsonValue) -> Result<()> {
 fn report_human(template_name: &str, value: JsonValue) -> Result<()> {
     // Load the template environment.
     let mut env = Environment::new();
-    env.set_trim_blocks(true);
     env.set_lstrip_blocks(true);
     env.set_keep_trailing_newline(false);
     minijinja_embed::load_templates!(&mut env);
