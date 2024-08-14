@@ -7,6 +7,4 @@
 //! [cwe_openapi]: https://github.com/CWE-CAPEC/REST-API-wg/blob/main/openapi.json
 //! [progenitor]: https://github.com/oxidecomputer/progenitor
 
-use progenitor::generate_api;
-
-generate_api!("api/cwe-api.json");
+progenitor::generate_api!("api/cwe-api.json");

@@ -1,0 +1,19 @@
+[package]
+name = "cwe-api"
+description = "Make requests to the CWE API"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+readme = "../README.md"
+
+[dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+futures = "0.3"
+progenitor = "0.7.0"
+reqwest = { version = "0.11", features = [
+    "json",
+    "stream",
+    "rustls-tls",
+    "rustls-tls-native-roots",
+] }
+serde = { version = "1.0", features = ["derive"] }
