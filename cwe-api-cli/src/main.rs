@@ -2,13 +2,12 @@
 
 mod app;
 mod cli;
+mod report;
 
-use crate::app::App;
-use crate::cli::*;
+use crate::{app::App, cli::*, report::report};
 use anyhow::{anyhow, Result};
-use serde::Serialize;
+use function_name::named;
 use std::process::ExitCode;
-use tracing::instrument;
 use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt as _};
 
 #[tokio::main]
@@ -46,7 +45,7 @@ async fn run() -> Result<()> {
     }
 }
 
-#[instrument]
+#[named]
 async fn run_version_cmd(app: &App, args: &VersionArgs) -> Result<()> {
     let cli_version = args.cli_version.then(|| version::version!());
     let api_version = args.api_version.then(|| app.client.api_version());
@@ -68,10 +67,9 @@ async fn run_version_cmd(app: &App, args: &VersionArgs) -> Result<()> {
         "std_version": std_version
     });
 
-    report_json(value)
+    report(app.cli.format, function_name!(), value)
 }
 
-#[instrument]
 async fn run_cwe_cmd(app: &App, args: &CweArgs) -> Result<()> {
     match &args.command {
         CweCommand::Info(args) => run_cwe_info_cmd(app, args).await,
@@ -82,85 +80,124 @@ async fn run_cwe_cmd(app: &App, args: &CweArgs) -> Result<()> {
     }
 }
 
-#[instrument]
 async fn run_weakness_cmd(app: &App, args: &WeaknessArgs) -> Result<()> {
     match &args.command {
         WeaknessCommand::Info(args) => run_weakness_info_cmd(app, args).await,
     }
 }
 
-#[instrument]
 async fn run_view_cmd(app: &App, args: &ViewArgs) -> Result<()> {
     match &args.command {
         ViewCommand::Info(args) => run_view_info_cmd(app, args).await,
     }
 }
 
-#[instrument]
 async fn run_category_cmd(app: &App, args: &CategoryArgs) -> Result<()> {
     match &args.command {
         CategoryCommand::Info(args) => run_category_info_cmd(app, args).await,
     }
 }
 
+#[named]
 async fn run_cwe_info_cmd(app: &App, args: &CweInfoArgs) -> Result<()> {
     let value = app.client.get_cwe_info(&args.id).await?.into_inner().0;
-    report_json(value)
+
+    report(
+        app.cli.format,
+        function_name!(),
+        serde_json::to_value(value)?,
+    )
 }
 
+#[named]
 async fn run_cwe_parents_cmd(app: &App, args: &CweParentsArgs) -> Result<()> {
     let value = app
         .client
         .get_cwe_parents(&args.id, args.view.as_deref())
         .await?
         .into_inner();
-    report_json(value)
+
+    report(
+        app.cli.format,
+        function_name!(),
+        serde_json::to_value(value)?,
+    )
 }
 
+#[named]
 async fn run_cwe_descendants_cmd(app: &App, args: &CweDescendantsArgs) -> Result<()> {
     let value = app
         .client
         .get_cwe_descendants(&args.id, args.view.as_deref())
         .await?
         .into_inner();
-    report_json(value)
+
+    report(
+        app.cli.format,
+        function_name!(),
+        serde_json::to_value(value)?,
+    )
 }
 
+#[named]
 async fn run_cwe_children_cmd(app: &App, args: &CweChildrenArgs) -> Result<()> {
     let value = app
         .client
         .get_cwe_children(&args.id, args.view.as_deref())
         .await?
         .into_inner();
-    report_json(value)
+
+    report(
+        app.cli.format,
+        function_name!(),
+        serde_json::to_value(value)?,
+    )
 }
 
+#[named]
 async fn run_cwe_ancestors_cmd(app: &App, args: &CweAncestorsArgs) -> Result<()> {
     let value = app
         .client
         .get_cwe_ancestors(&args.id, args.primary, args.view.as_deref())
         .await?
         .into_inner();
-    report_json(value)
+
+    report(
+        app.cli.format,
+        function_name!(),
+        serde_json::to_value(value)?,
+    )
 }
 
+#[named]
 async fn run_weakness_info_cmd(app: &App, args: &WeaknessInfoArgs) -> Result<()> {
     let value = app.client.get_cwe_weakness(&args.id).await?.into_inner();
-    report_json(value)
+
+    report(
+        app.cli.format,
+        function_name!(),
+        serde_json::to_value(value)?,
+    )
 }
 
+#[named]
 async fn run_view_info_cmd(app: &App, args: &ViewInfoArgs) -> Result<()> {
     let value = app.client.get_cwe_view(&args.id).await?.into_inner();
-    report_json(value)
+
+    report(
+        app.cli.format,
+        function_name!(),
+        serde_json::to_value(value)?,
+    )
 }
 
+#[named]
 async fn run_category_info_cmd(app: &App, args: &CategoryInfoArgs) -> Result<()> {
     let value = app.client.get_cwe_category(&args.id).await?.into_inner();
-    report_json(value)
-}
 
-fn report_json<T: Serialize>(value: T) -> Result<()> {
-    let to_print = serde_json::to_string_pretty(&value)?;
-    println!("{}", to_print);
-    Ok(())
+    report(
+        app.cli.format,
+        function_name!(),
+        serde_json::to_value(value)?,
+    )
 }

@@ -1,8 +1,30 @@
+use std::fmt::{Display, Formatter, Result as FmtResult};
+
 #[derive(Debug, clap::Parser)]
 #[clap(about, long_about=None)]
 pub struct Cli {
     #[clap(subcommand)]
     pub command: Command,
+
+    #[clap(short, long, global = true, default_value_t = Format::Json)]
+    pub format: Format,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+pub enum Format {
+    /// Json output
+    Json,
+    /// Human-readable output
+    Human,
+}
+
+impl Display for Format {
+    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
+        match self {
+            Format::Json => write!(f, "json"),
+            Format::Human => write!(f, "human"),
+        }
+    }
 }
 
 #[derive(Debug, clap::Subcommand)]
