@@ -1,3 +1,4 @@
+{% for entry in context %}
 CWE #{{ context.ID }}: {{ context.Name }}
 
 Abstraction: {{ context.Abstraction }}
@@ -7,3 +8,4 @@ Abstraction: {{ context.Abstraction }}
 Description:
 
 {{ context.Description }}
+{% endfor %}
