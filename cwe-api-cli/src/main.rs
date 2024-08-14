@@ -4,8 +4,8 @@ mod app;
 mod cli;
 
 use crate::app::App;
+use crate::cli::*;
 use anyhow::{anyhow, Result};
-use cli::*;
 use serde::Serialize;
 use std::process::ExitCode;
 use tracing::instrument;
