@@ -1,11 +1,15 @@
+//! Defines the command line interface (CLI).
+
 use std::fmt::{Display, Formatter, Result as FmtResult};
 
+/// A CLI for the CWE API
 #[derive(Debug, clap::Parser)]
 #[clap(about, long_about=None)]
 pub struct Cli {
     #[clap(subcommand)]
     pub command: Command,
 
+    /// The format of output
     #[clap(short, long, global = true, default_value_t = Format::Json)]
     pub format: Format,
 }

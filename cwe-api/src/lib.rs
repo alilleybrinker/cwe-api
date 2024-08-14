@@ -7,4 +7,7 @@
 //! [cwe_openapi]: https://github.com/CWE-CAPEC/REST-API-wg/blob/main/openapi.json
 //! [progenitor]: https://github.com/oxidecomputer/progenitor
 
+/// The base URL of the CWE API.
+pub const BASE_URL: &str = "https://cwe-api.mitre.org/api/v1";
+
 progenitor::generate_api!("api/cwe-api.json");

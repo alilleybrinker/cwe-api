@@ -1,3 +1,5 @@
+//! Handles printing output to the user.
+
 use crate::cli::Format;
 use anyhow::Result;
 use minijinja::{context, Environment};
