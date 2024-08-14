@@ -1,11 +1,6 @@
-
-
 <div align="center">
 
-<br>
-
 # `cwe-api`
-
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)][license]
 
 </div>
