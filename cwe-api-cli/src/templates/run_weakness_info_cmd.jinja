@@ -1,11 +1,9 @@
-{% for entry in context %}
-CWE #{{ context.ID }}: {{ context.Name }}
+{% for weakness in context.Weaknesses %}
+CWE #{{ weakness.ID }}: {{ weakness.Name }}
 
-Abstraction: {{ context.Abstraction }}
-  Structure: {{ context.Structure }}
-     Status: {{ context.Status }}
+{{ weakness.Description }}
 
-Description:
-
-{{ context.Description }}
+Abstraction: {{ weakness.Abstraction }}
+  Structure: {{ weakness.Structure }}
+     Status: {{ weakness.Status }}
 {% endfor %}
