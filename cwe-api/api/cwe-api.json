@@ -652,6 +652,17 @@
           ]
         }
       },
+      "SuggestionComment": {
+        "type": "object",
+        "properties": {
+          "Comment": {
+            "type": "string"
+          },
+          "CweID": {
+            "type": "string"
+          }
+        }
+      },
       "Parents": {
         "type": "object",
         "properties": {
@@ -1182,8 +1193,16 @@
             "example": ["Acceptable-Use", "Other"]
           },
           "Suggestions": {
-            "type": "string",
-            "example": "High"
+            "oneOf": [
+              {
+                "type": "string",
+                "example": "High"
+              },
+              {
+                "type": "array",
+                "#ref": "#/components/schema/SuggestionComment"
+              }
+            ]
           }
         },
         "required": ["Usage", "Rationale", "Comments", "Reasons"]
