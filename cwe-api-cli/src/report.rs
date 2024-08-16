@@ -6,6 +6,17 @@ use minijinja::{context, Environment};
 use serde_json::Value as JsonValue;
 use tracing::debug;
 
+#[macro_export]
+macro_rules! report {
+    ( $app:expr, $value:expr ) => {
+        $crate::report::report(
+            $app.cli.format,
+            function_name!(),
+            serde_json::to_value($value)?,
+        )
+    };
+}
+
 /// Report output.
 pub fn report(format: Format, template_name: &str, value: JsonValue) -> Result<()> {
     match format {

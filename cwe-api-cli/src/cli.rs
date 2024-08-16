@@ -33,8 +33,6 @@ impl Display for Format {
 
 #[derive(Debug, clap::Subcommand)]
 pub enum Command {
-    /// Get version information for the CLI and API.
-    Version(VersionArgs),
     /// Operations for specific CWEs.
     Cwe(CweArgs),
     /// Operations for specific weaknesses.
@@ -43,6 +41,8 @@ pub enum Command {
     View(ViewArgs),
     /// Operations for specific categories.
     Category(CategoryArgs),
+    /// Get version information for the CLI and API.
+    Version(VersionArgs),
 }
 
 #[derive(Debug, clap::Args)]
@@ -53,9 +53,6 @@ pub struct VersionArgs {
     /// Get the version of the CWE API.
     #[clap(long = "api", default_value_t = false)]
     pub api_version: bool,
-    /// Get the version of the CWE standard being used.
-    #[clap(long = "std", default_value_t = false)]
-    pub std_version: bool,
 }
 
 #[derive(Debug, clap::Args)]
@@ -94,6 +91,8 @@ pub enum CweCommand {
     Children(CweChildrenArgs),
     /// Get the ancestors of a specific CWE.
     Ancestors(CweAncestorsArgs),
+    /// Get info about the current version of the CWE database.
+    Version,
 }
 
 #[derive(Debug, clap::Args)]
