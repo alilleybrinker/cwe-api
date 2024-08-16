@@ -157,10 +157,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Category"
-                  },
-                  "type": "array"
+                  "Categories": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Category"
+                    }
+                  }
                 }
               }
             },
@@ -199,10 +201,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/View"
-                  },
-                  "type": "array"
+                  "Views": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/View"
+                    }
+                  }
                 }
               }
             },
@@ -303,10 +307,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Descendants"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/Descendants"
                 }
               }
             },
@@ -419,10 +420,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/Ancestors"
-                  },
-                  "type": "array"
+                  "$ref": "#/components/schemas/Ancestors"
                 }
               }
             },
@@ -444,20 +442,13 @@
       "Ancestors": {
         "type": "array",
         "items": {
-          "type": "array",
-
-          "items": {
-            "type": "object",
-            "properties": {
-              "Data": {
-                "$ref": "#/components/schemas/Node"
-              },
-              "Parents": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Ancestors"
-                }
-              }
+          "type": "object",
+          "properties": {
+            "Data": {
+              "$ref": "#/components/schemas/Node"
+            },
+            "Parents": {
+              "$ref": "#/components/schemas/Ancestors"
             }
           }
         },
@@ -564,6 +555,7 @@
                 "base_weakness",
                 "variant_weakness",
                 "chain_weakness",
+                "class_weakness",
                 "compound_weakness",
                 "deprecated_weakness",
                 "deprecated_category",
@@ -607,19 +599,13 @@
       "Descendants": {
         "type": "array",
         "items": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "Data": {
-                "$ref": "#/components/schemas/Node"
-              },
-              "Children": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/Descendants"
-                }
-              }
+          "type": "object",
+          "properties": {
+            "Data": {
+              "$ref": "#/components/schemas/Node"
+            },
+            "Children": {
+              "$ref": "#/components/schemas/Descendants"
             }
           }
         },
@@ -704,6 +690,9 @@
           "Name": {
             "type": "string",
             "example": "Weakness Title"
+          },
+          "Diagram": {
+            "type": "string"
           },
           "Abstraction": {
             "type": "string",
@@ -1014,6 +1003,12 @@
             "ModificationComment": {
               "type": "string"
             },
+            "ModificationVersion": {
+              "type": "string"
+            },
+            "ModificationReleaseDate": {
+              "type": "string"
+            },
             "ContributionName": {
               "type": "string"
             },
@@ -1037,6 +1032,9 @@
               "type": "string"
             },
             "PreviousEntryName": {
+              "type": "string"
+            },
+            "SubmissionComment": {
               "type": "string"
             },
             "Date": {
