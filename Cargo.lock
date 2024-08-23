@@ -263,7 +263,6 @@ dependencies = [
  "progenitor",
  "reqwest",
  "serde",
- "serde_json",
  "tokio",
 ]
 

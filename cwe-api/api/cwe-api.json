@@ -157,12 +157,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "Categories": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Category"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Categories"
                 }
               }
             },
@@ -201,12 +196,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "Views": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/View"
-                    }
-                  }
+                  "$ref": "#/components/schemas/Views"
                 }
               }
             },
@@ -652,6 +642,12 @@
           ]
         }
       },
+      "Suggestions": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SuggestionComment"
+        }
+      },
       "SuggestionComment": {
         "type": "object",
         "properties": {
@@ -659,7 +655,8 @@
             "type": "string"
           },
           "CweID": {
-            "type": "string"
+            "type": "string",
+            "format": "integer"
           }
         }
       },
@@ -818,6 +815,17 @@
           "Structure"
         ]
       },
+      "Categories": {
+        "description": "CWE Categories",
+        "properties": {
+          "Categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            }
+          }
+        }
+      },
       "Category": {
         "description": "CWE Category",
         "properties": {
@@ -854,6 +862,17 @@
           }
         },
         "type": "object"
+      },
+      "Views": {
+        "description": "CWE Views",
+        "properties": {
+          "Views": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/View"
+            }
+          }
+        }
       },
       "View": {
         "description": "CWE View",
@@ -1193,8 +1212,7 @@
             "example": ["Acceptable-Use", "Other"]
           },
           "Suggestions": {
-            "type": "array",
-            "#ref": "#/components/schema/SuggestionComment"
+            "$ref": "#/components/schemas/Suggestions"
           }
         },
         "required": ["Usage", "Rationale", "Comments", "Reasons"]
