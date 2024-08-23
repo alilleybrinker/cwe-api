@@ -1193,16 +1193,8 @@
             "example": ["Acceptable-Use", "Other"]
           },
           "Suggestions": {
-            "oneOf": [
-              {
-                "type": "string",
-                "example": "High"
-              },
-              {
-                "type": "array",
-                "#ref": "#/components/schema/SuggestionComment"
-              }
-            ]
+            "type": "array",
+            "#ref": "#/components/schema/SuggestionComment"
           }
         },
         "required": ["Usage", "Rationale", "Comments", "Reasons"]

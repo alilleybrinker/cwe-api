@@ -1,1 +1,5 @@
-{% for entry in context %}CWE #{{ entry.ID }} (type: {{ entry.Type }}){% endfor %}
+{% for entry in context %}
+CWE #{{ entry.ID }}
+
+Type: {{ entry.Type }}
+{% endfor %}
